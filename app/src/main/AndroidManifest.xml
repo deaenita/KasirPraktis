@@ -27,6 +27,10 @@
         <activity android:name=".Qr"/>
         <activity android:name=".Report"/>
         <activity android:name=".Transaction"/>
+        <activity android:name=".Keranjang"/>
+        <activity android:name=".Checkout"/>
+        <activity android:name=".TambahProduct"/>
+        <activity android:name=".DetailProduct"/>
     </application>
 
 </manifest>

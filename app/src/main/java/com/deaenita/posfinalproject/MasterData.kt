@@ -1,5 +1,6 @@
 package com.deaenita.posfinalproject
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -35,10 +36,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import java.text.NumberFormat
-import java.util.Locale
+
 
 data class Product(val id: Int, val name: String, val price: Double, val imageResId: Int)
 
@@ -91,6 +92,7 @@ fun POSMasterData() {
         Spacer(modifier = Modifier.height(16.dp))
 
 
+
         LazyColumn(
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -110,12 +112,14 @@ fun POSMasterData() {
 
 @Composable
 fun ProductListItem(product: Product) {
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 20.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
+
     ) {
         Image(
             painter = painterResource(id = product.imageResId),
@@ -140,7 +144,8 @@ fun ProductListItem(product: Product) {
 
 @Composable
 fun MasterDataScreen() {
-    // ...
+    val context = LocalContext.current
+    val intentTambahProduk = Intent(context, TambahProduct::class.java)
 
     // Boolean untuk menunjukkan apakah tombol tambah ditekan
     var isAddingProduct by remember { mutableStateOf(false) }
@@ -166,7 +171,7 @@ fun MasterDataScreen() {
 
         // Show dialog ketika tombol tambah ditekan
         if (isAddingProduct) {
-            // ... (Tampilkan dialog atau navigasi ke layar penambahan produk)
+                context.startActivity(intentTambahProduk)
         }
     }
 }
@@ -181,3 +186,4 @@ class MasterData : ComponentActivity() {
         }
     }
 }
+
