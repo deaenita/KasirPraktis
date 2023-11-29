@@ -1,5 +1,6 @@
 package com.deaenita.posfinalproject
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -17,6 +18,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -39,12 +41,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.ui.text.AnnotatedString
+
 
 data class Product(val id: Int, val name: String, val price: Double, val imageResId: Int)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun POSMasterData() {
+fun POSMasterData(context: Context) {
     Column {
         TopAppBar(title = { Text(text = "Master Data") },
             contentColor = MaterialTheme.colorScheme.primary)
@@ -100,49 +106,70 @@ fun POSMasterData() {
                 val product = products.filter {
                     it.name.contains(searchQuery, ignoreCase = true)
                 }[index]
-                ProductListItem(product = product)
+
+                // Menggunakan ProductListItem dengan onClick untuk membuka aktivitas detail
+                ProductListItem(product = product) { selectedProduct ->
+                    val intent = Intent(context, DetailProduk::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                    intent.putExtra("productId", selectedProduct.id)
+                    intent.putExtra("productName", selectedProduct.name)
+                    intent.putExtra("productPrice", selectedProduct.price)
+                    intent.putExtra("productImageResId", selectedProduct.imageResId)
+                    context.startActivity(intent)
+                }
             }
         }
     }
 }
+
 @Composable
-fun ProductListItem(product: Product) {
+fun ProductListItem(product: Product, onItemClick: (Product) -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 20.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
-
+        horizontalArrangement = Arrangement.SpaceBetween
     ) {
+        Box(
+            modifier = Modifier.clickable {
+                onItemClick(product)
+            }
+        ) {
         Image(
             painter = painterResource(id = product.imageResId),
             contentDescription = null,
             modifier = Modifier
                 .size(64.dp)
                 .clip(shape = RoundedCornerShape(4.dp))
-        )
+        )}
         Spacer(modifier = Modifier.width(24.dp))
         Row {
-            Text(
-                text = product.name,
+            ClickableText(
+                text = AnnotatedString(product.name),
                 style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier.weight(1f)
-            )
-            Text(
-                text = product.price.toRupiahFormat(),
+                modifier = Modifier.weight(1f),
+                onClick = {
+                    onItemClick(product)
+                })
+            ClickableText(
+                text = AnnotatedString(product.price.toRupiahFormat()),
                 style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier.padding(end = 24.dp)
-            )
+                modifier = Modifier.padding(end = 24.dp),
+                onClick = {
+                    onItemClick(product)
+                })
         }
         Spacer(modifier = Modifier.weight(1f))
     }
 }
+
 fun Double.toRupiahFormat(): String {
     val formattedValue = java.text.NumberFormat.getCurrencyInstance(java.util.Locale("id", "ID"))
         .format(this)
     return formattedValue.replace("IDR", "Rp. ")
 }
+
 @Composable
 fun MasterDataScreen() {
     val context = LocalContext.current
@@ -179,7 +206,7 @@ class MasterData : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            POSMasterData()
+            POSMasterData(context = this)
             MasterDataScreen()
         }
     }

@@ -30,9 +30,9 @@
         <activity android:name=".Keranjang"/>
         <activity android:name=".Checkout"/>
         <activity android:name=".TambahProduct"/>
-        <activity android:name=".DetailProduct"/>
         <activity android:name=".CetakStruk"/>
         <activity android:name=".TransaksiSukses"/>
+        <activity android:name=".DetailProduk"/>
     </application>
 
 </manifest>
