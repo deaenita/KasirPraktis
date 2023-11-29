@@ -40,9 +40,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 
-
 data class Product(val id: Int, val name: String, val price: Double, val imageResId: Int)
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -52,24 +50,26 @@ fun POSMasterData() {
             contentColor = MaterialTheme.colorScheme.primary)
     }
     val products = listOf(
-        Product(1, "Beras", 15.000, R.drawable.beras),
-        Product(2, "Telur", 27.000, R.drawable.telur),
-        Product(3, "Cabai", 50.000, R.drawable.cabai),
-        Product(4, "Tomat", 5.000, R.drawable.tomato),
-        Product(4, "Bawang", 10.000, R.drawable.onion),
-        // ...tambahkan produk lain jika diperlukan
+        Product(1, "Beras", 35000.00, R.drawable.beras),
+        Product(2, "Telur", 27000.00, R.drawable.telur),
+        Product(3, "Cabai", 75000.00, R.drawable.cabai),
+        Product(4, "Tomat", 15000.00, R.drawable.tomato),
+        Product(5, "Bawang Merah", 25000.00, R.drawable.onion),
+        Product(6, "Bawang", 27000.00, R.drawable.bawang),
+        Product(7, "Daun Bawang", 17000.00, R.drawable.daunbawang),
+        Product(8, "Labu", 35000.00, R.drawable.labu),
+        Product(9, "Jahe", 30000.00, R.drawable.jahe),
+        Product(10, "Pala", 50000.00, R.drawable.pala),
+        Product(11, "Vanili", 1000000.00, R.drawable.vanilla),
     )
-
     var searchQuery by remember { mutableStateOf("") }
-
     Column {
         TopAppBar(
             title = { Text(text = "Master Data") },
-            backgroundColor = Color.White, // Atur warna latar belakang app bar
-            contentColor = Color.Black // Atur warna teks app bar
+            backgroundColor = Color(0xFFD8BFD8),
+            contentColor = Color.White
         )
         Spacer(modifier = Modifier.height(16.dp))
-
         // Kotak pencarian
         OutlinedTextField(
             value = searchQuery,
@@ -88,11 +88,7 @@ fun POSMasterData() {
                 )
             }
         )
-
         Spacer(modifier = Modifier.height(16.dp))
-
-
-
         LazyColumn(
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -109,10 +105,8 @@ fun POSMasterData() {
         }
     }
 }
-
 @Composable
 fun ProductListItem(product: Product) {
-
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -128,20 +122,27 @@ fun ProductListItem(product: Product) {
                 .size(64.dp)
                 .clip(shape = RoundedCornerShape(4.dp))
         )
-
-        Spacer(modifier = Modifier.width(16.dp))
-
+        Spacer(modifier = Modifier.width(24.dp))
         Row {
-            Text(text = product.name, style = MaterialTheme.typography.labelLarge)
-            Text(text = "              Rp${product.price}", style = MaterialTheme.typography.labelLarge,
-                modifier = Modifier)
+            Text(
+                text = product.name,
+                style = MaterialTheme.typography.bodyLarge,
+                modifier = Modifier.weight(1f)
+            )
+            Text(
+                text = product.price.toRupiahFormat(),
+                style = MaterialTheme.typography.bodyLarge,
+                modifier = Modifier.padding(end = 24.dp)
+            )
         }
-
         Spacer(modifier = Modifier.weight(1f))
     }
-
 }
-
+fun Double.toRupiahFormat(): String {
+    val formattedValue = java.text.NumberFormat.getCurrencyInstance(java.util.Locale("id", "ID"))
+        .format(this)
+    return formattedValue.replace("IDR", "Rp. ")
+}
 @Composable
 fun MasterDataScreen() {
     val context = LocalContext.current
@@ -174,8 +175,6 @@ fun MasterDataScreen() {
         }
     }
 }
-
-
 class MasterData : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -185,4 +184,3 @@ class MasterData : ComponentActivity() {
         }
     }
 }
-
