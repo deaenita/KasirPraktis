@@ -141,18 +141,18 @@ fun POSHomePage() {
                             .padding(end = 20.dp)
                     )
                 }
-                TextButton(
-                    onClick = { /* Handle button click */ },
-                    modifier = Modifier
-                        .wrapContentSize()
-                        .align(Alignment.End),
-                    colors = ButtonDefaults.textButtonColors(Color.Blue)
-                ) {
-                    Text(
-                        text = "Lihat Detail",
-                        color = Color.White// Ubah warna teks
-                    )
-                }
+//                TextButton(
+//                    onClick = { /* Handle button click */ },
+//                    modifier = Modifier
+//                        .wrapContentSize()
+//                        .align(Alignment.End),
+//                    colors = ButtonDefaults.textButtonColors(Color.Blue)
+//                ) {
+//                    Text(
+//                        text = "Lihat Detail",
+//                        color = Color.White// Ubah warna teks
+//                    )
+//               }
             }
         }
     }
