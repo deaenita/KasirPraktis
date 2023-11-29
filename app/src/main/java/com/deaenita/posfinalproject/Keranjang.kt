@@ -6,12 +6,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -177,9 +173,9 @@ fun ProductListKeranjang(product: ProductKeranjang, onQuantityChange: (Int) -> U
 
 
 // Fungsi untuk menghitung totalAmount dari seluruh produk
-fun calculateTotalAmount(products: List<ProductKeranjang>): Double {
-    return products.sumByDouble { it.price * it.quantity }
-}
+//fun calculateTotalAmount(products: List<ProductTransaction>): Double {
+//    return products.sumByDouble { it.price * it.quantity }
+//}
 
 class Keranjang : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

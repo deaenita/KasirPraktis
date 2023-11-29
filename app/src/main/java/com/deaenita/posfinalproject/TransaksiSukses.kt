@@ -101,7 +101,10 @@ fun TransactionSuccessDialog(context: Context = LocalContext.current) {
                 Button(
                     onClick = {
                         // Implement your logic for closing the dialog
-                        openDialog = false
+
+                            val intent = Intent(context, MainActivity::class.java)
+                            context.startActivity(intent)
+
                     },
                     modifier = Modifier
                         .fillMaxWidth()

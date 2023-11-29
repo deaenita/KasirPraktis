@@ -107,7 +107,6 @@ fun POSMasterData(context: Context) {
                     it.name.contains(searchQuery, ignoreCase = true)
                 }[index]
 
-                // Menggunakan ProductListItem dengan onClick untuk membuka aktivitas detail
                 ProductListItem(product = product) { selectedProduct ->
                     val intent = Intent(context, DetailProduk::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
@@ -175,7 +174,6 @@ fun MasterDataScreen() {
     val context = LocalContext.current
     val intentTambahProduk = Intent(context, TambahProduct::class.java)
 
-    // Boolean untuk menunjukkan apakah tombol tambah ditekan
     var isAddingProduct by remember { mutableStateOf(false) }
 
     Column(
@@ -196,7 +194,6 @@ fun MasterDataScreen() {
                 modifier = Modifier.size(24.dp)
             )
         }
-        // Show dialog ketika tombol tambah ditekan
         if (isAddingProduct) {
                 context.startActivity(intentTambahProduk)
         }

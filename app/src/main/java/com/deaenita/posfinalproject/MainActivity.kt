@@ -50,8 +50,6 @@ fun POSHomePage() {
         Spacer(modifier = Modifier.height(65.dp))
         val context = LocalContext.current
         val intentMasterData = Intent(context, MasterData::class.java)
-        //val intentReport = Intent(context, Report::class.java)
-        //context.startActivity(intentReport)
         val intentQr = Intent(context, Qr::class.java)
         val intentTransaction = Intent(context, Transaction::class.java)
         Row(

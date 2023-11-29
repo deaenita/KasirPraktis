@@ -1,61 +1,93 @@
 package com.deaenita.posfinalproject
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat.startActivity
 
 
-data class ProductTransaction(val id: Int, val name: String, val price: Double, val imageResId: Int, var quantity: Int = 0)
+data class ProductTransaction(val id: Int, val name: String, val price: Double, val imageResId: Int)
+data class CartItem(val product: Product, var quantity: Int)
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun POSTransaction() {
-    val isAddingProduct by remember { mutableStateOf(false) }
-    var totalAmount by remember { mutableStateOf(0.0) }
-    var quantity by remember { mutableStateOf(0) }
-
-
-    val products = listOf(
-        ProductTransaction(1, "Beras", 15.000, R.drawable.beras),
-        ProductTransaction(2, "Telur", 27.000, R.drawable.telur),
-        ProductTransaction(3, "Cabai", 50.000, R.drawable.cabai),
-        //ProductTransaction(4, "Tomat", 5.000, R.drawable.tomato),
-        //ProductTransaction(5, "Bawang", 10.000, R.drawable.onion),
-        // ...tambahkan produk lain jika diperlukan
-    )
-
-    var searchQuery by remember { mutableStateOf("") }
+fun POSTransaction(context: Context) {
+    var totalItems by remember { mutableStateOf(0) }
+    var totalPrice by remember { mutableStateOf(0.0) }
 
     Column {
+        TopAppBar(title = { Text(text = "Transaksi") },
+            contentColor = MaterialTheme.colorScheme.primary)
+    }
+    val productTrans = listOf(
+        ProductTransaction(1, "Beras", 35000.00, R.drawable.beras),
+        ProductTransaction(2, "Telur", 27000.00, R.drawable.telur),
+        ProductTransaction(3, "Cabai", 75000.00, R.drawable.cabai),
+        ProductTransaction(4, "Tomat", 15000.00, R.drawable.tomato),
+        ProductTransaction(5, "Bawang Merah", 25000.00, R.drawable.onion),
+        ProductTransaction(6, "Bawang", 27000.00, R.drawable.bawang),
+        ProductTransaction(7, "Daun Bawang", 17000.00, R.drawable.daunbawang),
+        ProductTransaction(8, "Labu", 35000.00, R.drawable.labu),
+        ProductTransaction(9, "Jahe", 30000.00, R.drawable.jahe),
+        ProductTransaction(10, "Pala", 50000.00, R.drawable.pala),
+        ProductTransaction(11, "Vanili", 1000000.00, R.drawable.vanilla),
+    )
+    // Fungsi untuk menambah item ke keranjang belanja
+    val addToCart: (Double, Int) -> Unit = { price, qty ->
+        totalItems =+ qty
+        totalPrice =+ price
+    }
+
+    var searchQuery by remember { mutableStateOf("") }
+    Column {
         TopAppBar(
-            title = { Text(text = "Master Data") },
-            backgroundColor = Color.White,
-            contentColor = Color.Black
+            title = { Text(text = "Transaksi") },
+            backgroundColor = Color(0xFFD8BFD8),
+            contentColor = Color.White
         )
         Spacer(modifier = Modifier.height(16.dp))
-
         // Kotak pencarian
-        TextField(
+        OutlinedTextField(
             value = searchQuery,
             onValueChange = { searchQuery = it },
             modifier = Modifier
@@ -72,167 +104,164 @@ fun POSTransaction() {
                 )
             }
         )
-
         Spacer(modifier = Modifier.height(16.dp))
-
         LazyColumn(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.weight(1f)
+
         ) {
             items(
-                count = products.filter {
+                count = productTrans.filter {
                     it.name.contains(searchQuery, ignoreCase = true)
                 }.size
             ) { index ->
-                val product = products.filter {
+                val product = productTrans.filter {
                     it.name.contains(searchQuery, ignoreCase = true)
                 }[index]
-                ProductListItem(product = product) {
-                    // Update totalAmount ketika kuantitas berubah
-                    totalAmount = calculateTotalAmount(products)
+
+                ProductListItem(product = product) { quantity ->
+                    // Update totalItems dan totalPrice ketika kuantitas berubah
+                    addToCart(product.price * quantity, quantity)
                 }
+
+
             }
         }
-
-        // Tambahkan Card di paling bawah untuk menampilkan totalAmount
         Card(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
-                .padding(end = 30.dp)
-                .padding(bottom = 20.dp), // Ganti warna latar belakang Card sesuai keinginan Anda
-            elevation = 8.dp,
-            shape = RoundedCornerShape(8.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .clickable { /* Action when clicked */ }
         ) {
-            Row(
+            Column(
                 modifier = Modifier
+                    .padding(16.dp)
                     .fillMaxWidth()
-                    .padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(
-                    text = "Total: Rp${totalAmount}",
-                    style = MaterialTheme.typography.labelLarge,
-                    color = Color.Magenta // Ubah warna teks sesuai keinginan Anda
-                )
-
-                // Button Proses Pesanan
-                val context = LocalContext.current
-                val intentKeranjang = Intent(context, Keranjang::class.java)
-
-                Button(
-                    onClick = {
-                        // Pindah ke activity baru dengan membawa data totalAmount
-                        context.startActivity(intentKeranjang)
-                        intentKeranjang.putExtra("totalAmount", totalAmount)
-                        context.startActivity(intentKeranjang)
-
-                    },
-                    modifier = Modifier.height(32.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        backgroundColor = MaterialTheme.colorScheme.primary,
-                        contentColor = Color.White
-                    )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Text("Proses Pesanan", style = MaterialTheme.typography.bodySmall, fontSize = 14.sp)
+                    Text(
+                        text = "Jumlah Item: ${totalItems}",
+                        fontSize = 18.sp,
+                        modifier = Modifier.padding(bottom = 8.dp)
+                    )
+                    Text(
+                        text = "${totalPrice.toRupiahFormats()}",
+                        fontSize = 18.sp
+                    )
+                }
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    Button(
+                        onClick = {
+                            val intent = Intent(context, TransaksiSukses::class.java)
+                            intent.putExtra("TOTAL_ITEMS", totalItems)
+                            intent.putExtra("TOTAL_PRICE", totalPrice)
+                            //intent.putExtra("NAMA", totalPrice)
+                            //intent.putExtra("HARGA", totalPrice)
+                            context.startActivity(intent)
+                        },
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.secondary)
+                    ) {
+                        Text(text = "Proses Pesanan")
+                    }
                 }
             }
 
         }
     }
-
-    // Dialog untuk menambah produk
-    if (isAddingProduct) {
-        // Implementasi dialog menambah produk
-        // ...
-
-        // Setelah menambah produk, atur isAddingProduct menjadi false
-        // isAddingProduct = false
-    }
 }
 
 @Composable
-fun ProductListItem(product: ProductTransaction, onQuantityChange: (Int) -> Unit) {
-    val quantity by remember { mutableStateOf(0) }
+    fun ProductListItem(product: ProductTransaction, onQuantityChange: (Int) -> Unit) {
+    var jumlahProduk by remember { mutableStateOf(0) }
 
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 20.dp, vertical = 12.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        Image(
-            painter = painterResource(id = product.imageResId),
-            contentDescription = null,
-            modifier = Modifier
-                .size(64.dp)
-                .clip(shape = RoundedCornerShape(4.dp))
-        )
-
-        Spacer(modifier = Modifier.width(16.dp))
-
+        Box(
+            modifier = Modifier.clickable {
+                //onItemClick(product)
+            }
+        ) {
+            Image(
+                painter = painterResource(id = product.imageResId),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(64.dp)
+                    .clip(shape = RoundedCornerShape(4.dp))
+            )
+        }
+        Spacer(modifier = Modifier.width(24.dp))
         Column(
             modifier = Modifier.weight(1f)
         ) {
-            Text(text = product.name, style = MaterialTheme.typography.labelLarge)
             Text(
-                text = "Rp${product.price}",
-                style = MaterialTheme.typography.labelLarge,
-                modifier = Modifier.padding(top = 4.dp)
+                text = product.name,
+                style = MaterialTheme.typography.bodyLarge,
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = product.price.toRupiahFormats(),
+                style = MaterialTheme.typography.bodyLarge,
+                modifier = Modifier.fillMaxWidth()
             )
         }
-
-        // Tombol (+) dan (-) serta jumlah item
         Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Button(
                 onClick = {
-                    if (product.quantity > 0) {
-                        product.quantity--
-                        onQuantityChange(quantity) // Panggil onQuantityChange setelah mengubah jumlah
+                    if (jumlahProduk > 0) {
+                        jumlahProduk--
+                        onQuantityChange(jumlahProduk)
+
                     }
                 },
                 modifier = Modifier.wrapContentSize(),
-                contentPadding = PaddingValues(2.dp)
+                colors = ButtonDefaults.buttonColors(Color.LightGray),
             ) {
-                Text("-", style = MaterialTheme.typography.labelLarge)
+                Text("-")
             }
-
             Text(
-                text = "${product.quantity}",
-                style = MaterialTheme.typography.labelLarge,
-                modifier = Modifier.width(20.dp).padding(horizontal = 4.dp),
-                textAlign = TextAlign.Center
+                text = jumlahProduk.toString(),
+                modifier = Modifier.padding(horizontal = 12.dp)
             )
-
             Button(
-                onClick = {
-                    product.quantity++
-                    onQuantityChange(quantity) // Panggil onQuantityChange setelah mengubah jumlah
+                onClick = { jumlahProduk++
+                    onQuantityChange(jumlahProduk)
                 },
                 modifier = Modifier.wrapContentSize(),
-                contentPadding = PaddingValues(2.dp)
             ) {
-                Text("+", style = MaterialTheme.typography.labelLarge)
+                Text("+")
             }
         }
     }
 }
 
 
-// Fungsi untuk menghitung totalAmount dari seluruh produk
-fun calculateTotalAmount(products: List<ProductTransaction>): Double {
-    return products.sumByDouble { it.price * it.quantity }
+
+fun Double.toRupiahFormats(): String {
+    val formattedValue = java.text.NumberFormat.getCurrencyInstance(java.util.Locale("id", "ID"))
+        .format(this)
+    return formattedValue.replace("IDR", "Rp. ")
 }
 
 class Transaction : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            POSTransaction()
+            POSTransaction(context = this)
         }
     }
 }
