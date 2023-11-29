@@ -38,7 +38,12 @@ fun POSHomePage() {
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Top,
     ) {
-        TopAppBar(title = { Text(text = "Point of Sale") })
+        TopAppBar(
+            title = { Text(text = "Kasir Praktis",
+                letterSpacing = 5.sp,fontSize = 18.sp) },
+            backgroundColor = Color(0xFFD8BFD8),
+            contentColor = Color.White
+        )
         Spacer(modifier = Modifier.height(16.dp))
         Spacer(modifier = Modifier.height(8.dp))
         TotalIncomeView(totalIncome = 1500000.0)
@@ -232,11 +237,7 @@ fun TotalIncomeView(totalIncome: Double) {
 
 @Composable
 fun AppBar() {
-    TopAppBar(
-        title = { Text(text = "Point of Sale") },
-        backgroundColor = MaterialTheme.colorScheme.background,
-        contentColor = MaterialTheme.colorScheme.primary
-    )
+
 }
 
 @Composable
