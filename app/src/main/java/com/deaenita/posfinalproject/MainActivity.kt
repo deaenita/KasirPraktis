@@ -166,7 +166,7 @@ fun POSHomePage() {
                 ) {
                     Text(
                         text = "Lihat Detail",
-                        color = Color.White // Ubah warna teks
+                        color = Color.White// Ubah warna teks
                     )
                 }
             }
