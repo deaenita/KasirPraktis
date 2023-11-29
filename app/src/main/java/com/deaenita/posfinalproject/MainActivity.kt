@@ -2,7 +2,6 @@ package com.deaenita.posfinalproject
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.ImageButton
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -31,8 +30,6 @@ import java.util.*
 import androidx.compose.material.Card
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalContext
 
 @Composable
@@ -48,7 +45,8 @@ fun POSHomePage() {
         Spacer(modifier = Modifier.height(10.dp))
         val context = LocalContext.current
         val intentMasterData = Intent(context, MasterData::class.java)
-        val intentReport = Intent(context, Report::class.java)
+        //val intentReport = Intent(context, Report::class.java)
+        //context.startActivity(intentReport)
         val intentQr = Intent(context, Qr::class.java)
         val intentTransaction = Intent(context, Transaction::class.java)
         Row(
@@ -82,7 +80,7 @@ fun POSHomePage() {
                 icon = painterResource(id = R.drawable.report),
                 label = "Report",
                 onClick = {
-                    context.startActivity(intentReport)
+                    //context.startActivity(intentReport)
                 }
             )
             MenuIcon(

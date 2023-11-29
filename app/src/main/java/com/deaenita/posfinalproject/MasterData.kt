@@ -168,7 +168,6 @@ fun MasterDataScreen() {
                 modifier = Modifier.size(24.dp)
             )
         }
-
         // Show dialog ketika tombol tambah ditekan
         if (isAddingProduct) {
                 context.startActivity(intentTambahProduk)

@@ -31,6 +31,8 @@
         <activity android:name=".Checkout"/>
         <activity android:name=".TambahProduct"/>
         <activity android:name=".DetailProduct"/>
+        <activity android:name=".CetakStruk"/>
+        <activity android:name=".TransaksiSukses"/>
     </application>
 
 </manifest>
