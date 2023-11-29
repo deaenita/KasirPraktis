@@ -3,7 +3,9 @@ package com.deaenita.posfinalproject
 import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -13,11 +15,16 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import com.deaenita.posfinalproject.ui.theme.PosFinalProjectTheme
+import androidx.compose.material.TopAppBar
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalContext
 
 data class ProdukTambah(
     val nama: String,
@@ -40,11 +47,6 @@ fun TambahProdukPos(onSave: (ProdukTambah) -> Unit, onCancel: () -> Unit) {
     var isBottomSheetVisible by remember { mutableStateOf(false) }
     var showDialog by remember { mutableStateOf(false) }
 
-
-    Column {
-        androidx.compose.material.TopAppBar(title = { Text(text = "Tambah Produk") })
-    }
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -64,7 +66,6 @@ fun TambahProdukPos(onSave: (ProdukTambah) -> Unit, onCancel: () -> Unit) {
                 .size(120.dp)
                 .clip(MaterialTheme.shapes.medium)
                 .clickable {
-                    // Handling image click
                 },
             contentScale = ContentScale.Crop
         )
@@ -145,8 +146,6 @@ fun TambahProdukPos(onSave: (ProdukTambah) -> Unit, onCancel: () -> Unit) {
                     Text("Pilih Gambar")
                 },
                 text = {
-                    // Your image selection logic here
-                    // Example: ImagePicker(onImageSelected = { gambarUri = it })
                 },
                 confirmButton = {
                     Button(
@@ -166,14 +165,17 @@ class TambahProduct : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            PosFinalProjectTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    TambahProdukPos(onSave = {}, onCancel = {})
-                }
+            Surface(
+                modifier = Modifier.fillMaxSize(),
+                color = MaterialTheme.colorScheme.background
+            ) {
+                TambahProdukPos(onSave = {}, onCancel = {})
             }
+            TopAppBar(
+                title = { Text(text = "Tambah Produk") },
+                backgroundColor = Color(0xFFD8BFD8),
+                contentColor = Color.White
+            )
         }
     }
 }

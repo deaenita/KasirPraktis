@@ -47,7 +47,7 @@ fun POSHomePage() {
         Spacer(modifier = Modifier.height(16.dp))
         Spacer(modifier = Modifier.height(8.dp))
         TotalIncomeView(totalIncome = 1500000.0)
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(65.dp))
         val context = LocalContext.current
         val intentMasterData = Intent(context, MasterData::class.java)
         //val intentReport = Intent(context, Report::class.java)
@@ -74,20 +74,6 @@ fun POSHomePage() {
 
                 }
             )
-        }
-        Spacer(modifier = Modifier.height(28.dp))
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceAround,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            MenuIcon(
-                icon = painterResource(id = R.drawable.report),
-                label = "Report",
-                onClick = {
-                    //context.startActivity(intentReport)
-                }
-            )
             MenuIcon(
                 icon = painterResource(id = R.drawable.qrscan),
                 label = "QR",
@@ -96,7 +82,7 @@ fun POSHomePage() {
                 }
             )
         }
-        Spacer(modifier = Modifier.height(5.dp))
+        Spacer(modifier = Modifier.height(60.dp))
         Card(
             modifier = Modifier
                 .fillMaxWidth()
