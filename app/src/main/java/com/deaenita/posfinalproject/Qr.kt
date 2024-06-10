@@ -38,7 +38,7 @@ fun QrContent(context: Context) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Kasir Praktis",
+        Text(text = "Kasir Cerdas",
             fontSize = 24.sp, letterSpacing = 10.sp,modifier = Modifier.padding(8.dp))
         Image(
             painter = painterResource(id = R.drawable.kasirpraktis),

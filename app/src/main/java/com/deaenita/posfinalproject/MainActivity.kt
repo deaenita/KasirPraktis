@@ -39,7 +39,7 @@ fun POSHomePage() {
         verticalArrangement = Arrangement.Top,
     ) {
         TopAppBar(
-            title = { Text(text = "Kasir Praktis",
+            title = { Text(text = "Kasir Cerdas",
                 letterSpacing = 5.sp,fontSize = 18.sp) },
             backgroundColor = Color(0xFFD8BFD8),
             contentColor = Color.White
@@ -49,7 +49,7 @@ fun POSHomePage() {
         TotalIncomeView(totalIncome = 1500000.0)
         Spacer(modifier = Modifier.height(65.dp))
         val context = LocalContext.current
-        val intentMasterData = Intent(context, MasterData::class.java)
+        val intentMasterData = Intent(context, MasterData()::class.java)
         val intentQr = Intent(context, Qr::class.java)
         val intentTransaction = Intent(context, Transaction::class.java)
         Row(

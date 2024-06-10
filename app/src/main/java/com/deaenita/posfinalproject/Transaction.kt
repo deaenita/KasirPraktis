@@ -60,17 +60,17 @@ fun POSTransaction(context: Context) {
             contentColor = MaterialTheme.colorScheme.primary)
     }
     val productTrans = listOf(
-        ProductTransaction(1, "Beras", 35000.00, R.drawable.beras),
-        ProductTransaction(2, "Telur", 27000.00, R.drawable.telur),
-        ProductTransaction(3, "Cabai", 75000.00, R.drawable.cabai),
-        ProductTransaction(4, "Tomat", 15000.00, R.drawable.tomato),
-        ProductTransaction(5, "Bawang Merah", 25000.00, R.drawable.onion),
-        ProductTransaction(6, "Bawang", 27000.00, R.drawable.bawang),
-        ProductTransaction(7, "Daun Bawang", 17000.00, R.drawable.daunbawang),
-        ProductTransaction(8, "Labu", 35000.00, R.drawable.labu),
-        ProductTransaction(9, "Jahe", 30000.00, R.drawable.jahe),
-        ProductTransaction(10, "Pala", 50000.00, R.drawable.pala),
-        ProductTransaction(11, "Vanili", 1000000.00, R.drawable.vanilla),
+        ProductTransaction(1, "ATS air duster 3 way", 75000.00, R.drawable.atsairdusterway),
+        ProductTransaction(2, "ATS diamond cor dril 35 ml", 70000.00, R.drawable.buildingmaterials),
+        ProductTransaction(3, "Aditon adibon pelengket", 65000.00, R.drawable.buildingmaterials),
+        ProductTransaction(4, "Aditon pengeras", 45000.00, R.drawable.buildingmaterials),
+        ProductTransaction(5, "Air keras 1 liter botol plastik HCL", 8000.00, R.drawable.buildingmaterials),
+        ProductTransaction(6, "Amplas Rol", 260000.00, R.drawable.buildingmaterials),
+        ProductTransaction(7, "Amplas meteran", 10000.00, R.drawable.buildingmaterials),
+        ProductTransaction(8, "Amplas rol meteran", 8000.00, R.drawable.buildingmaterials),
+        ProductTransaction(9, "Asgel asbes gelombang ", 58000.00, R.drawable.buildingmaterials),
+        ProductTransaction(10, "Asgel asbes gelombang ", 68000.00, R.drawable.buildingmaterials),
+        ProductTransaction(11, "Asgel asbes", 73000.00, R.drawable.buildingmaterials),
     )
     // Fungsi untuk menambah item ke keranjang belanja
     val addToCart: (Double, Int) -> Unit = { price, qty ->

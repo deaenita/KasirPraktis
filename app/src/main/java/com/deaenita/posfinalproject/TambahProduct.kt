@@ -1,5 +1,6 @@
 package com.deaenita.posfinalproject
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -23,6 +24,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.material.TopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 
@@ -127,6 +133,8 @@ fun TambahProdukPos(onSave: (ProdukTambah) -> Unit, onCancel: () -> Unit) {
             Text("Simpan")
         }
 
+
+
         // Button batal
         Button(
             onClick = onCancel,
@@ -169,7 +177,8 @@ class TambahProduct : ComponentActivity() {
                 modifier = Modifier.fillMaxSize(),
                 color = MaterialTheme.colorScheme.background
             ) {
-                TambahProdukPos(onSave = {}, onCancel = {})
+                TambahProdukPos(onSave = {},
+                    onCancel = {navigateToHomepage()})
             }
             TopAppBar(
                 title = { Text(text = "Tambah Produk") },
@@ -177,5 +186,10 @@ class TambahProduct : ComponentActivity() {
                 contentColor = Color.White
             )
         }
+    }
+    private fun navigateToHomepage() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish() // Optional: To prevent going back to this activity
     }
 }

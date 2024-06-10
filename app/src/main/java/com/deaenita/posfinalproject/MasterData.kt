@@ -56,17 +56,17 @@ fun POSMasterData(context: Context) {
             contentColor = MaterialTheme.colorScheme.primary)
     }
     val products = listOf(
-        Product(1, "Beras", 35000.00, R.drawable.beras),
-        Product(2, "Telur", 27000.00, R.drawable.telur),
-        Product(3, "Cabai", 75000.00, R.drawable.cabai),
-        Product(4, "Tomat", 15000.00, R.drawable.tomato),
-        Product(5, "Bawang Merah", 25000.00, R.drawable.onion),
-        Product(6, "Bawang", 27000.00, R.drawable.bawang),
-        Product(7, "Daun Bawang", 17000.00, R.drawable.daunbawang),
-        Product(8, "Labu", 35000.00, R.drawable.labu),
-        Product(9, "Jahe", 30000.00, R.drawable.jahe),
-        Product(10, "Pala", 50000.00, R.drawable.pala),
-        Product(11, "Vanili", 1000000.00, R.drawable.vanilla),
+        Product(1, "ATS air duster 3 way", 75000.00, R.drawable.atsairdusterway),
+        Product(2, "ATS diamond cor dril 35 ml", 70000.00, R.drawable.buildingmaterials),
+        Product(3, "Aditon adibon pelengket", 65000.00, R.drawable.buildingmaterials),
+        Product(4, "Aditon pengeras", 45000.00, R.drawable.buildingmaterials),
+        Product(5, "Air keras 1 liter botol plastik HCL", 8000.00, R.drawable.buildingmaterials),
+        Product(6, "Amplas Rol", 260000.00, R.drawable.buildingmaterials),
+        Product(7, "Amplas meteran", 10000.00, R.drawable.buildingmaterials),
+        Product(8, "Amplas rol meteran", 8000.00, R.drawable.buildingmaterials),
+        Product(9, "Asgel asbes gelombang ", 58000.00, R.drawable.buildingmaterials),
+        Product(10, "Asgel asbes gelombang ", 68000.00, R.drawable.buildingmaterials),
+        Product(11, "Asgel asbes", 73000.00, R.drawable.buildingmaterials),
     )
     var searchQuery by remember { mutableStateOf("") }
     Column {
@@ -135,13 +135,13 @@ fun ProductListItem(product: Product, onItemClick: (Product) -> Unit) {
                 onItemClick(product)
             }
         ) {
-        Image(
-            painter = painterResource(id = product.imageResId),
-            contentDescription = null,
-            modifier = Modifier
-                .size(64.dp)
-                .clip(shape = RoundedCornerShape(4.dp))
-        )}
+            Image(
+                painter = painterResource(id = product.imageResId),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(64.dp)
+                    .clip(shape = RoundedCornerShape(4.dp))
+            )}
         Spacer(modifier = Modifier.width(24.dp))
         Row {
             ClickableText(
@@ -195,7 +195,7 @@ fun MasterDataScreen() {
             )
         }
         if (isAddingProduct) {
-                context.startActivity(intentTambahProduk)
+            context.startActivity(intentTambahProduk)
         }
     }
 }
